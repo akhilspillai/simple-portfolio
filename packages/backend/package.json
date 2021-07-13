@@ -15,6 +15,23 @@
     "lib"
   ],
   "scripts": {
+    "start": "ts-node src/server.ts",
+    "tsc": "tsc",
     "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "dependencies": {
+    "cookie-parser": "^1.4.5",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "http-errors": "^1.8.0",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "@types/cookie-parser": "^1.4.2",
+    "@types/cors": "^2.8.12",
+    "@types/express": "^4.17.13",
+    "@types/http-errors": "^1.8.1",
+    "@types/morgan": "^1.9.3",
+    "ts-node": "^10.1.0"
   }
 }
