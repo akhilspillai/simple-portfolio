@@ -3,10 +3,13 @@ import {
   Button,
   FormControl,
   Grid,
+  Snackbar,
   TextField,
   Typography,
 } from "@material-ui/core";
+import { Alert } from "@material-ui/lab";
 
+import { post } from "../../util/poster";
 import "./Contact.css";
 
 export function Contact(): ReactElement {
@@ -18,7 +21,14 @@ export function Contact(): ReactElement {
   const [emailError, setEmailError] = useState("");
   const [messageError, setMessageError] = useState("");
 
-  function onSubmit() {
+  const [error, setError] = useState("");
+
+  function isValidEmail(email: string): boolean {
+    const re = /\S+@\S+\.\S+/;
+    return re.test(email);
+  }
+
+  async function onSubmit() {
     if (name === "") {
       setNameError("Cannot be empty");
       return;
@@ -27,11 +37,24 @@ export function Contact(): ReactElement {
       setEmailError("Cannot be empty");
       return;
     }
+    if (!isValidEmail(email)) {
+      setEmailError("Not valid");
+      return;
+    }
     if (message === "") {
       setMessageError("Cannot be empty");
       return;
     }
-    console.log("submit clicked");
+
+    const response = await post({
+      name,
+      email,
+      message,
+    });
+    console.log("response", response);
+    if (!response.success && !!response.error) {
+      setError(response.error);
+    }
   }
 
   function onNameChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -47,6 +70,10 @@ export function Contact(): ReactElement {
   function onMessageChange(e: React.ChangeEvent<HTMLInputElement>) {
     setMessageError("");
     setMessage(e.target.value);
+  }
+
+  function onAlertClose() {
+    setError("");
   }
 
   return (
@@ -101,6 +128,11 @@ export function Contact(): ReactElement {
       >
         SUBMIT
       </Button>
+      <Snackbar open={!!error} autoHideDuration={5000} onClose={onAlertClose}>
+        <Alert onClose={onAlertClose} severity="error">
+          {error}
+        </Alert>
+      </Snackbar>
     </div>
   );
 }
