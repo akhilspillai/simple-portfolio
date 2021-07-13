@@ -1,0 +1,20 @@
+{
+  "name": "@simple-portfolio/backend",
+  "version": "0.1.0",
+  "description": "> TODO: description",
+  "author": "Akhil S Pillai <akhiltcs1988@gmail.com>",
+  "homepage": "",
+  "license": "ISC",
+  "main": "lib/backend.js",
+  "typings": "lib/backend.d.ts",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  }
+}

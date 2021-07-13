@@ -1,0 +1,23 @@
+ul {
+  list-style-type: none;
+}
+
+.projects-container {
+  margin-top: 16vh;
+}
+
+.project-item-container {
+  display: flex;
+}
+
+.project-item {
+  padding: 20px;
+}
+
+.projects-body {
+  padding-top: 10px;
+}
+
+.description-body {
+  padding-top: 10px;
+}
