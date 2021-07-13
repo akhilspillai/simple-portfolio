@@ -84,14 +84,14 @@ export function Projects(): ReactElement {
     </Grid>
   ));
   return (
-    <div className="projects-container">
+    <div className="component-container">
       <Typography variant="h3" className="project-title">
         Projects
       </Typography>
       <Grid
         container
         className="projects-body"
-        justifyContent={"space-between"}
+        justifyContent="space-between"
         spacing={2}
       >
         {descriptions}

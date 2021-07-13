@@ -21,6 +21,11 @@ const theme = createTheme({
       color: "#1A1BF",
     },
   },
+  palette: {
+    primary: {
+      main: "#000000",
+    },
+  },
 });
 
 function App(): ReactElement {

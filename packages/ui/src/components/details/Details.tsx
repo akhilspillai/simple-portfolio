@@ -8,7 +8,7 @@ const DETAILS =
 
 export function Details(): ReactElement {
   return (
-    <div className="details">
+    <div className="component-container">
       <Typography variant="subtitle1">Akhil S Pillai</Typography>
       <Typography variant="subtitle2" className="designation">
         Software Engineer

@@ -1,0 +1,11 @@
+.contact-container {
+  display: flex;
+  flex-direction: column;
+  background: #f4f4f4;
+  padding: 80px;
+}
+
+.submit-button {
+  width: fit-content;
+  margin-top: 20px !important; /* TODO: check why? */
+}
