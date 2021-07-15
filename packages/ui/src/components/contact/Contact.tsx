@@ -12,6 +12,8 @@ import { Alert } from "@material-ui/lab";
 import { post } from "../../util/poster";
 import "./Contact.css";
 
+const SEND_CONTACT_URL = "/contact";
+
 export function Contact(): ReactElement {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -46,13 +48,14 @@ export function Contact(): ReactElement {
       return;
     }
 
-    const response = await post({
+    const contactRequest = {
       name,
       email,
       message,
-    });
-    console.log("response", response);
-    if (!response.success && !!response.error) {
+    };
+    const response = await post(SEND_CONTACT_URL, contactRequest);
+
+    if (response.error) {
       setError(response.error);
     }
   }
