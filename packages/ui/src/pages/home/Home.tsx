@@ -13,6 +13,7 @@ export function Home(): ReactElement {
       <About />
       <Projects />
       <Contact />
+      {/* TODO: Add tech experiance progressbar */}
     </div>
   );
 }

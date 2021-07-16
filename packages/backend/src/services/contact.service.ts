@@ -10,35 +10,35 @@ export async function sendEmail(
   const transporter = nodemailer.createTransport(mailConfig);
 
   const mailOptions = {
-    from: "stellarengineindia@gmail.com",
+    from: "stellarengineindia@gmail.com", // TODO: add to env variables
     to: "akhilspillai@gmail.com",
     subject: `Message from ${name} (${email})`,
     text: message,
   };
   const info = await transporter.sendMail(mailOptions);
-  if (process.env.NODE_ENV != "prod") {
-    logger.debug("Preview url:", nodemailer.getTestMessageUrl(info));
+  if (process.env.NODE_ENV != "production") {
+    logger.debug("Preview url: " + nodemailer.getTestMessageUrl(info));
   } else {
     logger.debug("Email sent: " + info.response);
   }
 }
 
 function getMailConfig() {
-  if (process.env.NODE_ENV != "prod") {
+  if (process.env.NODE_ENV != "production") {
     return {
       host: "smtp.ethereal.email",
       port: 587,
       auth: {
-        user: "nathanial29@ethereal.email",
-        pass: "tq7dTzuudbfvYHCwfN",
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASSWORD,
       },
     };
   }
   return {
     service: "gmail",
     auth: {
-      user: "stellarengineindia@gmail.com",
-      pass: "fkxjbzosnmoazqpo",
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASSWORD,
     },
   };
 }
