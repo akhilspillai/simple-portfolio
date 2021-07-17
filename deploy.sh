@@ -6,5 +6,5 @@ cd ~/simple-portfolio
 git pull origin master
 
 # start the containers
-docker-compose up -d
+docker-compose up -d --force-recreate
 docker-compose -f nginx-proxy-compose.yaml up -d
