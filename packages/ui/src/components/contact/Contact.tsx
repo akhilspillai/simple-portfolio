@@ -23,7 +23,8 @@ export function Contact(): ReactElement {
   const [emailError, setEmailError] = useState("");
   const [messageError, setMessageError] = useState("");
 
-  const [error, setError] = useState("");
+  const [alert, setAlert] = useState({ isError: false, message: "" });
+  const [isLoading, setLoading] = useState(false);
 
   function isValidEmail(email: string): boolean {
     const re = /\S+@\S+\.\S+/;
@@ -47,6 +48,7 @@ export function Contact(): ReactElement {
       setMessageError("Cannot be empty");
       return;
     }
+    setLoading(true);
 
     const contactRequest = {
       name,
@@ -54,11 +56,21 @@ export function Contact(): ReactElement {
       message,
     };
     const response = await post(SEND_CONTACT_URL, contactRequest);
-    // TODO: clear the form once message is send
 
+    setLoading(false);
     if (response.error) {
-      setError(response.error);
+      setAlert({ isError: true, message: response.error });
+      return;
     }
+
+    setName("");
+    setEmail("");
+    setMessage("");
+
+    setAlert({
+      isError: false,
+      message: "Thank you for contacting me. I will get back to you soon.",
+    });
   }
 
   function onNameChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -77,7 +89,7 @@ export function Contact(): ReactElement {
   }
 
   function onAlertClose() {
-    setError("");
+    setAlert({ isError: false, message: "" });
   }
 
   return (
@@ -85,8 +97,8 @@ export function Contact(): ReactElement {
       <Typography variant="h4">Want to get in touch?</Typography>
       <Typography variant="h4">Drop me a line!</Typography>
       <FormControl className="contact-form" margin="normal">
-        <Grid container spacing={2}>
-          <Grid item xs={6}>
+        <Grid container spacing={2} justifyContent="space-between">
+          <Grid item xs={12} md={6}>
             <TextField
               error={!!nameError}
               label="NAME"
@@ -95,9 +107,11 @@ export function Contact(): ReactElement {
               fullWidth={true}
               helperText={nameError}
               onChange={onNameChange}
+              disabled={isLoading}
+              value={name}
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12} md={6}>
             <TextField
               error={!!emailError}
               label="EMAIL"
@@ -106,6 +120,8 @@ export function Contact(): ReactElement {
               fullWidth={true}
               helperText={emailError}
               onChange={onEmailChange}
+              disabled={isLoading}
+              value={email}
             />
           </Grid>
           <Grid item xs={12}>
@@ -119,6 +135,8 @@ export function Contact(): ReactElement {
               fullWidth={true}
               helperText={messageError}
               onChange={onMessageChange}
+              disabled={isLoading}
+              value={message}
             />
           </Grid>
         </Grid>
@@ -129,12 +147,20 @@ export function Contact(): ReactElement {
         className="submit-button"
         size="large"
         onClick={onSubmit}
+        disabled={isLoading}
       >
         SUBMIT
       </Button>
-      <Snackbar open={!!error} autoHideDuration={5000} onClose={onAlertClose}>
-        <Alert onClose={onAlertClose} severity="error">
-          {error}
+      <Snackbar
+        open={!!alert.message}
+        autoHideDuration={5000}
+        onClose={onAlertClose}
+      >
+        <Alert
+          onClose={onAlertClose}
+          severity={alert.isError ? "error" : "success"}
+        >
+          {alert.message}
         </Alert>
       </Snackbar>
     </div>

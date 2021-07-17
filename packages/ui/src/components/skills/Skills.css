@@ -1,0 +1,9 @@
+.skill-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.skills-body {
+  padding-top: 30px;
+}

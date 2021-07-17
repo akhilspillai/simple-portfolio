@@ -37,8 +37,8 @@ const PROJECTS = [
 ];
 
 export function Projects(): ReactElement {
-  const descriptions = PROJECTS.map((project, i) => (
-    <Grid item className="project-item-container" key={i} xs={6}>
+  const projectItems = PROJECTS.map((project, i) => (
+    <Grid item className="project-item-container" key={i} xs={12}>
       <Paper className="project-item">
         <Typography variant="h5">{project.title}</Typography>
         <Typography variant="body2" className="description-body">
@@ -54,11 +54,11 @@ export function Projects(): ReactElement {
       </Typography>
       <Grid
         container
-        className="projects-body"
+        className="component-body"
         justifyContent="space-between"
         spacing={2}
       >
-        {descriptions}
+        {projectItems}
       </Grid>
     </div>
   );
