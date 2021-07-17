@@ -1,5 +1,11 @@
 FROM node:14-alpine as builder
 
+ARG API_URL=
+ARG APP_ENV=production
+
+ENV REACT_APP_API_URL=$API_URL
+ENV REACT_APP_ENV=$APP_ENV
+
 WORKDIR /usr
 
 # copy the base ts config
@@ -11,7 +17,6 @@ WORKDIR /usr/packages/backend
 COPY packages/backend/package.json ./
 COPY packages/backend/tsconfig*.json ./
 COPY packages/backend/src ./src
-COPY packages/backend/env ./env
 
 # build the backend ts code
 RUN yarn
@@ -25,12 +30,11 @@ WORKDIR /usr/packages/ui
 COPY packages/ui/package.json ./
 COPY packages/ui/tsconfig.json ./
 COPY packages/ui/src ./src
-COPY packages/ui/env ./env
 COPY packages/ui/public ./public
 
 # build the ui ts code
 RUN yarn
-RUN yarn build:prod
+RUN yarn build
 
 FROM node:14-alpine as ship
 WORKDIR /usr

@@ -3,7 +3,8 @@ export interface Resp {
 }
 
 export async function post<T, U>(url: string, formData: T): Promise<Resp & U> {
-  const response = await fetch(`${process.env.REACT_APP_API_URL}api/v1${url}`, {
+  const baseUrl = process.env.REACT_APP_BASE_URL || "";
+  const response = await fetch(`${baseUrl}api/v1${url}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

@@ -1,4 +1,4 @@
-import express, { Request, Response } from "express";
+import express, { Request, Response, NextFunction } from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 
@@ -19,7 +19,8 @@ app.use(express.static("public"));
 app.use("/api/v1/", apiIndexRouter);
 
 // Capture 500 errors
-app.use((err: HttpError, req: Request, res: Response) => {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+app.use((err: HttpError, req: Request, res: Response, next: NextFunction) => {
   res.status(err.status || 500).json({ error: "Oops! Something went wrong." });
   logger.error(
     `${err.status || 500} - ${res.statusMessage} - ${err.message} - ${
@@ -29,7 +30,8 @@ app.use((err: HttpError, req: Request, res: Response) => {
 });
 
 // Capture 404 erors
-app.use((req, res) => {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+app.use((req, res, next) => {
   res.status(404).send("PAGE NOT FOUND");
   logger.error(
     `404 - ${res.statusMessage} - ${req.originalUrl} - ${req.method} - ${req.ip}`
