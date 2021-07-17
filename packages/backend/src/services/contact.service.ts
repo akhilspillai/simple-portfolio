@@ -10,8 +10,7 @@ export async function sendEmail(
   const transporter = nodemailer.createTransport(mailConfig);
 
   const mailOptions = {
-    from: "stellarengineindia@gmail.com", // TODO: add to env variables
-    to: "akhilspillai@gmail.com",
+    to: process.env.EMAIL_RECEIVER,
     subject: `Message from ${name} (${email})`,
     text: message,
   };

@@ -3,7 +3,7 @@ import { createLogger, format, transports } from "winston";
 const { Console } = transports;
 
 const logger = createLogger({
-  level: process.env.NODE_ENV == "production" ? "info" : "debug",
+  level: process.env.NODE_ENV == "production" ? "info" : "debug", // TODO: change this to error for production
 });
 
 const errorStackFormat = format((info) => {

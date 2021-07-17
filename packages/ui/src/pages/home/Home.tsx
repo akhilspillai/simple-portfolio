@@ -1,6 +1,6 @@
 import { ReactElement } from "react";
 import { Details } from "../../components/details/Details";
-import { About } from "../../components/about/About";
+import About from "../../components/about/About";
 import { Projects } from "../../components/projects/Projects";
 import { Contact } from "../../components/contact/Contact";
 
@@ -13,7 +13,7 @@ export function Home(): ReactElement {
       <About />
       <Projects />
       <Contact />
-      {/* TODO: Add tech experiance progressbar */}
+      {/* TODO: Add tech experience progressbar */}
     </div>
   );
 }
