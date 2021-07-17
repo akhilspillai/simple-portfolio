@@ -5,6 +5,12 @@
   padding: 80px;
 }
 
+@media (max-width: 540px) {
+  .contact-container {
+    padding: 10vw;
+  }
+}
+
 .submit-button {
   width: fit-content;
   margin-top: 20px !important; /* TODO: check why? */

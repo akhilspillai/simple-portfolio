@@ -38,7 +38,7 @@ const PROJECTS = [
 
 export function Projects(): ReactElement {
   const projectItems = PROJECTS.map((project, i) => (
-    <Grid item className="project-item-container" key={i} xs={12}>
+    <Grid item className="project-item-container" key={i} xs={12} md={6}>
       <Paper className="project-item">
         <Typography variant="h5">{project.title}</Typography>
         <Typography variant="body2" className="description-body">
