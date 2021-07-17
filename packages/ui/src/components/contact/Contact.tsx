@@ -54,6 +54,7 @@ export function Contact(): ReactElement {
       message,
     };
     const response = await post(SEND_CONTACT_URL, contactRequest);
+    // TODO: clear the form once message is send
 
     if (response.error) {
       setError(response.error);
