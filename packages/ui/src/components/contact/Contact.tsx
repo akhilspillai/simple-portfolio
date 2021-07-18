@@ -117,6 +117,7 @@ export function Contact(): ReactElement {
               label="EMAIL"
               variant="outlined"
               margin="normal"
+              type="email"
               fullWidth={true}
               helperText={emailError}
               onChange={onEmailChange}
