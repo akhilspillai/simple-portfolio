@@ -1,7 +1,8 @@
 import { ReactElement } from "react";
-import { Grid, Paper, Typography } from "@material-ui/core";
+import { Card, CardContent, Grid, Paper, Typography } from "@material-ui/core";
 
 import "./Projects.css";
+import Container from "../common/Container";
 
 const PROJECTS = [
   {
@@ -36,30 +37,38 @@ const PROJECTS = [
   },
 ];
 
-export function Projects(): ReactElement {
+const LATEST_WORK = "Latest Work";
+
+interface Project {
+  title: string;
+  description: string;
+}
+
+interface ProjectDetailProps {
+  project: Project;
+}
+
+function ProjectDetail({ project }: ProjectDetailProps): ReactElement {
+  return (
+    <CardContent className="project-item">
+      <Typography variant="h5">{project.title}</Typography>
+      <Typography variant="body2" className="description-body">
+        {project.description}
+      </Typography>
+    </CardContent>
+  );
+}
+
+export default function Projects(): ReactElement {
   const projectItems = PROJECTS.map((project, i) => (
-    <Grid item className="project-item-container" key={i} xs={12} md={6}>
-      <Paper className="project-item">
-        <Typography variant="h5">{project.title}</Typography>
-        <Typography variant="body2" className="description-body">
-          {project.description}
-        </Typography>
-      </Paper>
-    </Grid>
+    <ProjectDetail project={project} key={i} />
   ));
   return (
-    <div className="component-container">
+    <Container className="component-container">
       <Typography variant="h3" className="project-title">
-        Projects
+        {LATEST_WORK}
       </Typography>
-      <Grid
-        container
-        className="component-body"
-        justifyContent="space-between"
-        spacing={2}
-      >
-        {projectItems}
-      </Grid>
-    </div>
+      <Card>{projectItems}</Card>
+    </Container>
   );
 }

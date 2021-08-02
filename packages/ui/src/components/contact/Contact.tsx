@@ -14,7 +14,7 @@ import "./Contact.css";
 
 const SEND_CONTACT_URL = "/contact";
 
-export function Contact(): ReactElement {
+export default function Contact(): ReactElement {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");

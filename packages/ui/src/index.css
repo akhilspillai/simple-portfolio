@@ -1,4 +1,12 @@
-@import url("https://fonts.googleapis.com/css?family=Montserrat");
+@font-face {
+  font-family: "Freescript";
+  src: local("Freescript"), url(./fonts/freescript.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: "Newsgoth";
+  src: local("Newsgoth"), url(./fonts/newsgoth-cn-bt.ttf) format("truetype");
+}
 
 body {
   margin: 0;
