@@ -7,3 +7,7 @@
 .skills-body {
   padding-top: 30px;
 }
+
+.skill-title {
+  transform: "rotate(-90deg)";
+}

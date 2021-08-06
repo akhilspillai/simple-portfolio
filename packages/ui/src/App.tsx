@@ -4,66 +4,111 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { Home } from "./pages/home/Home";
 import { ThemeProvider, createTheme } from "@material-ui/core/styles";
 import "./App.css";
+import About from "./components/about/About";
 
 const theme = createTheme({
   typography: {
     fontFamily: ["Montserrat", "sans-serif"].join(","),
+    h1: {
+      fontSize: "4rem",
+      fontFamily: ["Freescript", "sans-serif"].join(","),
+      fontWeight: "normal",
+    },
+    h2: {
+      fontSize: "4.5rem",
+      fontFamily: ["Poppins", "sans-serif"].join(","),
+      fontWeight: "bold",
+      lineHeight: "1",
+    },
+    h3: {
+      fontSize: "3rem",
+      fontFamily: ["Poppins", "sans-serif"].join(","),
+      fontWeight: "bold",
+    },
+    h4: {
+      fontSize: "2.1rem",
+    },
+    h5: {
+      fontSize: "1.5rem",
+      fontWeight: "bold",
+      fontFamily: ["Poppins", "sans-serif"].join(","),
+    },
     h6: {
-      fontWeight: "bolder",
+      fontSize: "2rem",
+      fontFamily: ["Newsgoth", "sans-serif"].join(","),
     },
     subtitle1: {
-      fontSize: "1rem",
-      fontWeight: "bolder",
+      fontSize: "1.5rem",
+      fontWeight: "normal",
+      lineHeight: "normal",
       color: "#1A1BF",
+      fontFamily: ["Newsgoth", "sans-serif"].join(","),
     },
-    subtitle2: {
-      color: "#1A1BF",
+    body1: {
+      fontFamily: ["Newsgoth", "sans-serif"].join(","),
+    },
+    body2: {
+      fontSize: "0.7rem",
+      fontFamily: ["Newsgoth", "sans-serif"].join(","),
     },
   },
   palette: {
     primary: {
-      main: "#000000",
+      main: "#12B2F9",
+    },
+    text: {
+      primary: "#040221",
+      secondary: "#E3E3E3",
     },
   },
 });
 
+theme.typography.h1 = {
+  ...theme.typography.h1,
+  [theme.breakpoints.down("xs")]: {
+    fontSize: "3rem",
+  },
+};
+
 theme.typography.h2 = {
-  fontSize: "3.7rem",
-  [theme.breakpoints.down("sm")]: {
-    fontSize: "2rem",
+  ...theme.typography.h2,
+  [theme.breakpoints.down("xs")]: {
+    fontSize: "3rem",
+  },
+  [theme.breakpoints.down("xs")]: {
+    fontSize: "2.5rem",
   },
 };
 
 theme.typography.h3 = {
-  fontSize: "3rem",
-  [theme.breakpoints.down("sm")]: {
+  ...theme.typography.h3,
+  [theme.breakpoints.down("xs")]: {
     fontSize: "2rem",
   },
 };
 
 theme.typography.h4 = {
-  fontSize: "2.1rem",
-  [theme.breakpoints.down("sm")]: {
+  ...theme.typography.h4,
+  [theme.breakpoints.down("xs")]: {
     fontSize: "1.6rem",
   },
 };
 
-theme.typography.h6 = {
-  fontSize: "1.4rem",
-  [theme.breakpoints.down("sm")]: {
-    fontSize: "1.2rem",
+theme.typography.subtitle1 = {
+  ...theme.typography.subtitle1,
+  [theme.breakpoints.down("xs")]: {
+    fontSize: "1rem",
   },
 };
 
 function App(): ReactElement {
   return (
     <ThemeProvider theme={theme}>
+      <div className="circle title-circle"></div>
       <AppBar position="static" color="transparent" elevation={0}>
         <Toolbar>
           <div className="title-wrapper">
-            <Typography variant="h6" className="title">
-              Portfolio
-            </Typography>
+            <Typography variant="h1">Portfolio</Typography>
           </div>
         </Toolbar>
       </AppBar>
@@ -73,6 +118,7 @@ function App(): ReactElement {
             <Home />
           </Route>
         </Switch>
+        <Route path="/about" component={About} />
       </Router>
     </ThemeProvider>
   );
