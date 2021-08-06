@@ -1,18 +1,63 @@
 import React, { ReactElement, useState } from "react";
 import {
-  Button,
-  FormControl,
+  Box,
   Grid,
   Snackbar,
   TextField,
   Typography,
+  withStyles,
+  createStyles,
 } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
 
 import { post } from "../../util/poster";
 import "./Contact.css";
+import AppButton from "../common/AppButton";
+import Circle from "../common/Circle";
 
 const SEND_CONTACT_URL = "/contact";
+const SUBMIT = "Send Message";
+
+const ContactBox = withStyles((theme) =>
+  createStyles({
+    root: {
+      display: "flex",
+      flexDirection: "column",
+      position: "relative",
+      overflow: "hidden",
+      padding: "80px 54px 140px 54px",
+      [theme.breakpoints.down("xs")]: {
+        padding: "80px 10px",
+        alignItems: "center",
+      },
+    },
+  })
+)(Box);
+
+const ContactTitle = withStyles((theme) =>
+  createStyles({
+    root: {
+      [theme.breakpoints.down("xs")]: {
+        textAlign: "center",
+      },
+    },
+  })
+)(Typography);
+
+const TextGridBox = withStyles((theme) =>
+  createStyles({
+    root: {
+      paddingLeft: "40px",
+      paddingRight: "40px",
+      marginTop: "100px",
+      marginBottom: "60px",
+      [theme.breakpoints.down("xs")]: {
+        paddingLeft: "15px",
+        paddingRight: "15px",
+      },
+    },
+  })
+)(Box);
 
 export default function Contact(): ReactElement {
   const [name, setName] = useState("");
@@ -93,16 +138,15 @@ export default function Contact(): ReactElement {
   }
 
   return (
-    <div className="component-container contact-container">
-      <Typography variant="h4">Want to get in touch?</Typography>
-      <Typography variant="h4">Drop me a line!</Typography>
-      <FormControl className="contact-form" margin="normal">
+    <ContactBox id="contact">
+      <Circle diameter="320px" right={-160} bottom={-160} transparency={0.3} />
+      <ContactTitle variant="h3">Want to get in touch?</ContactTitle>
+      <TextGridBox>
         <Grid container spacing={2} justifyContent="space-between">
           <Grid item xs={12} md={6}>
             <TextField
               error={!!nameError}
               label="NAME"
-              variant="outlined"
               margin="normal"
               fullWidth={true}
               helperText={nameError}
@@ -115,7 +159,6 @@ export default function Contact(): ReactElement {
             <TextField
               error={!!emailError}
               label="EMAIL"
-              variant="outlined"
               margin="normal"
               type="email"
               fullWidth={true}
@@ -129,9 +172,8 @@ export default function Contact(): ReactElement {
             <TextField
               error={!!messageError}
               label="MESSAGE"
-              variant="outlined"
               multiline
-              rows={10}
+              maxRows={10}
               margin="normal"
               fullWidth={true}
               helperText={messageError}
@@ -141,8 +183,8 @@ export default function Contact(): ReactElement {
             />
           </Grid>
         </Grid>
-      </FormControl>
-      <Button
+      </TextGridBox>
+      <AppButton
         variant="contained"
         color="primary"
         className="submit-button"
@@ -150,8 +192,8 @@ export default function Contact(): ReactElement {
         onClick={onSubmit}
         disabled={isLoading}
       >
-        SUBMIT
-      </Button>
+        {SUBMIT}
+      </AppButton>
       <Snackbar
         open={!!alert.message}
         autoHideDuration={5000}
@@ -164,6 +206,6 @@ export default function Contact(): ReactElement {
           {alert.message}
         </Alert>
       </Snackbar>
-    </div>
+    </ContactBox>
   );
 }

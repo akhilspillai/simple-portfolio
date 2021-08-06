@@ -1,8 +1,9 @@
 .contact-container {
   display: flex;
   flex-direction: column;
-  background: #f4f4f4;
-  padding: 80px;
+  padding: 80px 80px 140px 80px;
+  position: relative;
+  overflow: hidden;
 }
 
 @media (max-width: 540px) {
@@ -14,4 +15,8 @@
 .submit-button {
   width: fit-content;
   margin-top: 20px !important; /* TODO: check why? */
+}
+
+.contact-form {
+  padding: 0px 10px;
 }

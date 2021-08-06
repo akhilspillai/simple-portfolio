@@ -4,11 +4,10 @@ import About from "../../components/about/About";
 import Projects from "../../components/projects/Projects";
 import Contact from "../../components/contact/Contact";
 import Skills from "../../components/skills/Skills";
-
-import "./Home.css";
+import Footer from "../../components/footer/Footer";
 
 export function Home(): ReactElement {
-  // TODO: log site visits
+  // TODO: analytics for site visits
   return (
     <>
       <Details />
@@ -16,6 +15,7 @@ export function Home(): ReactElement {
       <Skills />
       <Projects />
       <Contact />
+      <Footer />
     </>
   );
 }

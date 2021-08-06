@@ -1,8 +1,15 @@
 import { ReactElement } from "react";
-import { Card, CardContent, Grid, Paper, Typography } from "@material-ui/core";
+import {
+  CardContent,
+  Typography,
+  Box,
+  makeStyles,
+  withStyles,
+  createStyles,
+} from "@material-ui/core";
+import Carousel from "react-material-ui-carousel";
 
 import "./Projects.css";
-import Container from "../common/Container";
 
 const PROJECTS = [
   {
@@ -48,11 +55,76 @@ interface ProjectDetailProps {
   project: Project;
 }
 
+const useStyles = makeStyles((theme) => ({
+  image: {
+    width: "33vw",
+    marginRight: "6vw",
+    [theme.breakpoints.down("xs")]: {
+      position: "absolute",
+      width: "100%",
+      marginTop: "20px",
+    },
+  },
+  carousel: {
+    paddingBottom: "60px",
+  },
+  carouselButtonWrapper: {
+    bottom: 0,
+    top: "unset",
+    margin: "0px 10px",
+  },
+  carouselButton: {
+    padding: 0,
+    top: "unset",
+  },
+  projectItem: {
+    display: "block",
+    backgroundColor: "#FFFFFFCC",
+  },
+  navImage: {
+    height: "45px",
+    width: "45px",
+  },
+}));
+
+const BodyBox = withStyles(() =>
+  createStyles({
+    root: {
+      display: "flex",
+      marginTop: 20,
+      position: "relative",
+    },
+  })
+)(Box);
+
+const ProjectsBox = withStyles((theme) =>
+  createStyles({
+    root: {
+      overflow: "hidden",
+      padding: "80px 54px 0px 54px",
+      [theme.breakpoints.down("xs")]: {
+        padding: "80px 10px 0px 10px",
+      },
+    },
+  })
+)(Box);
+
+const ProjectsTitle = withStyles((theme) =>
+  createStyles({
+    root: {
+      [theme.breakpoints.down("xs")]: {
+        textAlign: "center",
+      },
+    },
+  })
+)(Typography);
+
 function ProjectDetail({ project }: ProjectDetailProps): ReactElement {
+  const classes = useStyles();
   return (
-    <CardContent className="project-item">
+    <CardContent className={classes.projectItem}>
       <Typography variant="h5">{project.title}</Typography>
-      <Typography variant="body2" className="description-body">
+      <Typography variant="body1" className="description-body">
         {project.description}
       </Typography>
     </CardContent>
@@ -60,15 +132,35 @@ function ProjectDetail({ project }: ProjectDetailProps): ReactElement {
 }
 
 export default function Projects(): ReactElement {
+  const classes = useStyles();
   const projectItems = PROJECTS.map((project, i) => (
     <ProjectDetail project={project} key={i} />
   ));
   return (
-    <Container className="component-container">
-      <Typography variant="h3" className="project-title">
-        {LATEST_WORK}
-      </Typography>
-      <Card>{projectItems}</Card>
-    </Container>
+    <ProjectsBox id="projects">
+      <ProjectsTitle variant="h3">{LATEST_WORK}</ProjectsTitle>
+      <BodyBox>
+        <img className={classes.image} src="/projects.svg" alt="projects" />
+        <Carousel
+          className={classes.carousel}
+          autoPlay={false}
+          fullHeightHover={false}
+          swipe
+          navButtonsProps={{
+            className: classes.carouselButton,
+          }}
+          animation="slide"
+          navButtonsWrapperProps={{
+            className: classes.carouselButtonWrapper,
+          }}
+          navButtonsAlwaysVisible
+          indicators={false}
+          NextIcon={<img src="/next.svg" className={classes.navImage} />}
+          PrevIcon={<img src="/prev.svg" className={classes.navImage} />}
+        >
+          {projectItems}
+        </Carousel>
+      </BodyBox>
+    </ProjectsBox>
   );
 }

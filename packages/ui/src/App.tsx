@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { Home } from "./pages/home/Home";
 import { ThemeProvider, createTheme } from "@material-ui/core/styles";
 import "./App.css";
+import About from "./components/about/About";
 
 const theme = createTheme({
   typography: {
@@ -29,6 +30,7 @@ const theme = createTheme({
     },
     h5: {
       fontSize: "1.5rem",
+      fontWeight: "bold",
       fontFamily: ["Poppins", "sans-serif"].join(","),
     },
     h6: {
@@ -63,14 +65,14 @@ const theme = createTheme({
 
 theme.typography.h1 = {
   ...theme.typography.h1,
-  [theme.breakpoints.down("sm")]: {
+  [theme.breakpoints.down("xs")]: {
     fontSize: "3rem",
   },
 };
 
 theme.typography.h2 = {
   ...theme.typography.h2,
-  [theme.breakpoints.down("sm")]: {
+  [theme.breakpoints.down("xs")]: {
     fontSize: "3rem",
   },
   [theme.breakpoints.down("xs")]: {
@@ -80,15 +82,22 @@ theme.typography.h2 = {
 
 theme.typography.h3 = {
   ...theme.typography.h3,
-  [theme.breakpoints.down("sm")]: {
+  [theme.breakpoints.down("xs")]: {
     fontSize: "2rem",
   },
 };
 
 theme.typography.h4 = {
   ...theme.typography.h4,
-  [theme.breakpoints.down("sm")]: {
+  [theme.breakpoints.down("xs")]: {
     fontSize: "1.6rem",
+  },
+};
+
+theme.typography.subtitle1 = {
+  ...theme.typography.subtitle1,
+  [theme.breakpoints.down("xs")]: {
+    fontSize: "1rem",
   },
 };
 
@@ -109,6 +118,7 @@ function App(): ReactElement {
             <Home />
           </Route>
         </Switch>
+        <Route path="/about" component={About} />
       </Router>
     </ThemeProvider>
   );

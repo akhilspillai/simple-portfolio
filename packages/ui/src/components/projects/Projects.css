@@ -6,10 +6,6 @@ ul {
   display: flex;
 }
 
-.project-item {
-  padding: 20px;
-}
-
 .description-body {
   padding-top: 10px;
 }
