@@ -7,6 +7,8 @@ import {
   Typography,
   withStyles,
   createStyles,
+  makeStyles,
+  TextFieldProps,
 } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
 
@@ -18,13 +20,18 @@ import Circle from "../common/Circle";
 const SEND_CONTACT_URL = "/contact";
 const SUBMIT = "Send Message";
 
+const useStyles = makeStyles(() => ({
+  label: {
+    color: "#B8AEAE",
+  },
+}));
+
 const ContactBox = withStyles((theme) =>
   createStyles({
     root: {
       display: "flex",
       flexDirection: "column",
       position: "relative",
-      overflow: "hidden",
       padding: "80px 54px 140px 54px",
       [theme.breakpoints.down("xs")]: {
         padding: "80px 10px",
@@ -58,6 +65,20 @@ const TextGridBox = withStyles((theme) =>
     },
   })
 )(Box);
+
+function TextInput(props: TextFieldProps) {
+  const classes = useStyles();
+  return (
+    <TextField
+      margin="normal"
+      fullWidth={true}
+      InputLabelProps={{
+        className: classes.label,
+      }}
+      {...props}
+    />
+  );
+}
 
 export default function Contact(): ReactElement {
   const [name, setName] = useState("");
@@ -144,42 +165,36 @@ export default function Contact(): ReactElement {
       <TextGridBox>
         <Grid container spacing={2} justifyContent="space-between">
           <Grid item xs={12} md={6}>
-            <TextField
+            <TextInput
               error={!!nameError}
               label="NAME"
-              margin="normal"
-              fullWidth={true}
               helperText={nameError}
               onChange={onNameChange}
-              disabled={isLoading}
               value={name}
+              disabled={isLoading}
             />
           </Grid>
           <Grid item xs={12} md={6}>
-            <TextField
+            <TextInput
               error={!!emailError}
               label="EMAIL"
-              margin="normal"
               type="email"
-              fullWidth={true}
               helperText={emailError}
               onChange={onEmailChange}
-              disabled={isLoading}
               value={email}
+              disabled={isLoading}
             />
           </Grid>
           <Grid item xs={12}>
-            <TextField
+            <TextInput
               error={!!messageError}
               label="MESSAGE"
               multiline
               maxRows={10}
-              margin="normal"
-              fullWidth={true}
               helperText={messageError}
               onChange={onMessageChange}
-              disabled={isLoading}
               value={message}
+              disabled={isLoading}
             />
           </Grid>
         </Grid>

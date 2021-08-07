@@ -7,7 +7,6 @@ import {
 } from "@material-ui/core";
 import { ReactElement } from "react";
 import { scrollTo } from "../../util/util";
-import Circle from "../common/Circle";
 import FindMeButtons from "../common/FindMeButtons";
 
 const COPYRIGHT = "Copyright © 2019 Aerozef Creations | All rights reserved";
@@ -44,9 +43,9 @@ const ContactInfoText = withStyles(() =>
 )(Link);
 
 function FooterLinks(): ReactElement {
-  const links = LINK_DATA.map((data, i) => (
-    <>
-      {i != 0 && (
+  const links = LINK_DATA.map((data, key) => (
+    <Box display="flex" key={key}>
+      {key !== 0 && (
         <Typography variant="body2" color="textSecondary">
           |
         </Typography>
@@ -59,7 +58,7 @@ function FooterLinks(): ReactElement {
       >
         {data.name}
       </ComponentLink>
-    </>
+    </Box>
   ));
   return (
     <Box display="flex" marginY="5px">

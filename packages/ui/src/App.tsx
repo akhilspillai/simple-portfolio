@@ -1,10 +1,8 @@
-import { AppBar, Toolbar, Typography } from "@material-ui/core";
 import { ReactElement } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { Home } from "./pages/home/Home";
 import { ThemeProvider, createTheme } from "@material-ui/core/styles";
 import "./App.css";
-import About from "./components/about/About";
 
 const theme = createTheme({
   typography: {
@@ -94,6 +92,13 @@ theme.typography.h4 = {
   },
 };
 
+theme.typography.h5 = {
+  ...theme.typography.h5,
+  [theme.breakpoints.down("xs")]: {
+    fontSize: "1.2rem",
+  },
+};
+
 theme.typography.subtitle1 = {
   ...theme.typography.subtitle1,
   [theme.breakpoints.down("xs")]: {
@@ -104,21 +109,12 @@ theme.typography.subtitle1 = {
 function App(): ReactElement {
   return (
     <ThemeProvider theme={theme}>
-      <div className="circle title-circle"></div>
-      <AppBar position="static" color="transparent" elevation={0}>
-        <Toolbar>
-          <div className="title-wrapper">
-            <Typography variant="h1">Portfolio</Typography>
-          </div>
-        </Toolbar>
-      </AppBar>
       <Router>
         <Switch>
           <Route exact path="/">
             <Home />
           </Route>
         </Switch>
-        <Route path="/about" component={About} />
       </Router>
     </ThemeProvider>
   );

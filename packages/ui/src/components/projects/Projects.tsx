@@ -1,15 +1,29 @@
-import { ReactElement } from "react";
 import {
-  CardContent,
+  ReactElement,
+  useEffect,
+  useRef,
+  useState,
+  forwardRef,
+  ForwardedRef,
+} from "react";
+import {
   Typography,
   Box,
   makeStyles,
   withStyles,
   createStyles,
+  Card,
+  useMediaQuery,
+  Theme,
+  Link,
+  TypographyProps,
 } from "@material-ui/core";
 import Carousel from "react-material-ui-carousel";
 
 import "./Projects.css";
+import Circle from "../common/Circle";
+
+// TODO: Split this file
 
 const PROJECTS = [
   {
@@ -53,37 +67,61 @@ interface Project {
 
 interface ProjectDetailProps {
   project: Project;
+  children: ReactElement;
 }
 
 const useStyles = makeStyles((theme) => ({
   image: {
-    width: "33vw",
-    marginRight: "6vw",
-    [theme.breakpoints.down("xs")]: {
-      position: "absolute",
-      width: "100%",
-      marginTop: "20px",
+    display: "flex",
+    minWidth: "33%",
+    maxWidth: "33%",
+    backgroundImage: "url(/projects.png)",
+    backgroundPosition: "center",
+    backgroundSize: "cover",
+    backgroundRepeat: "no-repeat",
+    [theme.breakpoints.down("sm")]: {
+      minWidth: "40%",
+      maxWidth: "40%",
     },
   },
-  carousel: {
-    paddingBottom: "60px",
-  },
-  carouselButtonWrapper: {
-    bottom: 0,
-    top: "unset",
-    margin: "0px 10px",
+  imageWide: {
+    display: "flex",
+    flexDirection: "row",
+    backgroundImage: "url(/projects_wide.png)",
+    backgroundPosition: "center",
+    backgroundSize: "cover",
+    backgroundRepeat: "no-repeat",
+    width: "100%",
+    height: "120px",
+    alignItems: "flex-end",
+    padding: "0 20px",
+    [theme.breakpoints.down("xs")]: {
+      padding: 0,
+    },
   },
   carouselButton: {
     padding: 0,
-    top: "unset",
   },
-  projectItem: {
-    display: "block",
-    backgroundColor: "#FFFFFFCC",
+  carousel: {
+    [theme.breakpoints.down(750)]: {
+      paddingBottom: "40px",
+    },
+  },
+  carouselButtonWrapper: {
+    [theme.breakpoints.down(750)]: {
+      bottom: 0,
+      top: "unset",
+      margin: "0px 10px",
+    },
   },
   navImage: {
     height: "45px",
     width: "45px",
+  },
+  indicatorContainer: {
+    [theme.breakpoints.down(750)]: {
+      marginTop: "30px",
+    },
   },
 }));
 
@@ -91,16 +129,69 @@ const BodyBox = withStyles(() =>
   createStyles({
     root: {
       display: "flex",
-      marginTop: 20,
+      marginTop: "100px",
       position: "relative",
     },
   })
 )(Box);
 
+const ProjectTitle = withStyles((theme) =>
+  createStyles({
+    root: {
+      width: "100%",
+      backgroundColor: "#ffffffbb",
+      padding: "5px 10px",
+      [theme.breakpoints.down("xs")]: {
+        textAlign: "center",
+      },
+    },
+  })
+)(Typography);
+
+interface ProjectBodyProps extends TypographyProps {
+  maxLines?: number;
+}
+
+// TODO: Fix the eslint error below
+// eslint-disable-next-line react/display-name
+const TypographyWithRef = forwardRef(
+  (
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    { maxLines, ...props }: ProjectBodyProps,
+    ref: ForwardedRef<HTMLSpanElement>
+  ) => <Typography ref={ref} {...props} />
+);
+
+const ProjectBody = withStyles(() =>
+  createStyles({
+    root: ({ maxLines }: ProjectBodyProps) => ({
+      paddingTop: "20px",
+      display: "-webkit-box",
+      lineClamp: maxLines ?? "unset",
+      boxOrient: "vertical",
+      overflow: "hidden",
+    }),
+  })
+)(TypographyWithRef);
+
+const ProjectCard = withStyles((theme) =>
+  createStyles({
+    root: {
+      display: "flex",
+      flexDirection: "row",
+      margin: "0 60px",
+      [theme.breakpoints.down(750)]: {
+        flexDirection: "column",
+        margin: "0 0",
+      },
+    },
+  })
+)(Card);
+
 const ProjectsBox = withStyles((theme) =>
   createStyles({
     root: {
-      overflow: "hidden",
+      position: "relative",
       padding: "80px 54px 0px 54px",
       [theme.breakpoints.down("xs")]: {
         padding: "80px 10px 0px 10px",
@@ -119,42 +210,127 @@ const ProjectsTitle = withStyles((theme) =>
   })
 )(Typography);
 
-function ProjectDetail({ project }: ProjectDetailProps): ReactElement {
+function LargeScreenProject({
+  project,
+  children,
+}: ProjectDetailProps): ReactElement {
   const classes = useStyles();
   return (
-    <CardContent className={classes.projectItem}>
-      <Typography variant="h5">{project.title}</Typography>
-      <Typography variant="body1" className="description-body">
-        {project.description}
-      </Typography>
-    </CardContent>
+    <>
+      <Box className={classes.image} />
+      <Box padding="20px">
+        <Typography variant="h5">{project.title}</Typography>
+        {children}
+      </Box>
+    </>
+  );
+}
+
+function SmallScreenProject({
+  project,
+  children,
+}: ProjectDetailProps): ReactElement {
+  const classes = useStyles();
+  return (
+    <>
+      <Box className={classes.imageWide}>
+        <ProjectTitle variant="h5">{project.title}</ProjectTitle>
+      </Box>
+      <Box padding="20px" display="flex" flexDirection="column">
+        {children}
+      </Box>
+    </>
+  );
+}
+
+interface ProjectDescriptionProps {
+  description: string;
+  isSmallScreen: boolean;
+}
+
+function ProjectDescription({
+  description,
+  isSmallScreen,
+}: ProjectDescriptionProps): ReactElement {
+  const ref = useRef<HTMLSpanElement>(null);
+  const [isBigger, setBigger] = useState(false);
+  const [isExpanded, setExpanded] = useState(false);
+  useEffect(() => {
+    setBigger(
+      (ref.current?.scrollHeight ?? 0) > (ref.current?.clientHeight ?? 0)
+    );
+  });
+  function onClick(event: React.SyntheticEvent) {
+    event.preventDefault();
+    setExpanded(!isExpanded);
+  }
+  return (
+    <>
+      <ProjectBody
+        variant="body1"
+        className="description-body"
+        ref={ref}
+        maxLines={isExpanded ? undefined : isSmallScreen ? 5 : 6}
+      >
+        {description}
+      </ProjectBody>
+      {(isExpanded || isBigger) && (
+        <Link href="#" onClick={onClick}>
+          {isExpanded ? "less" : "more"}
+        </Link>
+      )}
+    </>
+  );
+}
+
+interface ProjectProps {
+  isSmallScreen: boolean;
+  project: Project;
+}
+
+function ProjectDetail({ isSmallScreen, project }: ProjectProps): ReactElement {
+  const Project = isSmallScreen ? SmallScreenProject : LargeScreenProject;
+  return (
+    <ProjectCard variant="outlined">
+      <Project project={project}>
+        <ProjectDescription
+          description={project.description}
+          isSmallScreen={isSmallScreen}
+        />
+      </Project>
+    </ProjectCard>
   );
 }
 
 export default function Projects(): ReactElement {
   const classes = useStyles();
+  const isSmallScreen = useMediaQuery((theme: Theme) =>
+    theme.breakpoints.down(750)
+  );
   const projectItems = PROJECTS.map((project, i) => (
-    <ProjectDetail project={project} key={i} />
+    <ProjectDetail project={project} key={i} isSmallScreen={isSmallScreen} />
   ));
   return (
     <ProjectsBox id="projects">
+      <Circle diameter="320px" left={-160} top="30%" transparency={0.3} />
       <ProjectsTitle variant="h3">{LATEST_WORK}</ProjectsTitle>
       <BodyBox>
-        <img className={classes.image} src="/projects.svg" alt="projects" />
         <Carousel
           className={classes.carousel}
           autoPlay={false}
-          fullHeightHover={false}
           swipe
+          fullHeightHover={!isSmallScreen}
+          animation="slide"
           navButtonsProps={{
             className: classes.carouselButton,
           }}
-          animation="slide"
           navButtonsWrapperProps={{
             className: classes.carouselButtonWrapper,
           }}
+          indicatorContainerProps={{
+            className: classes.indicatorContainer,
+          }}
           navButtonsAlwaysVisible
-          indicators={false}
           NextIcon={<img src="/next.svg" className={classes.navImage} />}
           PrevIcon={<img src="/prev.svg" className={classes.navImage} />}
         >

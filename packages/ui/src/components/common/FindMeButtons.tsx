@@ -17,6 +17,11 @@ const FIND_ME_VALUES = [
     image: "sof.svg",
     url: "https://stackoverflow.com/users/5185080/akhil",
   },
+  {
+    name: "github",
+    image: "github.svg",
+    url: "https://github.com/akhilspillai",
+  },
 ];
 
 const FindMeButton = withStyles(() =>

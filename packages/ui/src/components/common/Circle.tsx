@@ -20,6 +20,7 @@ export default function Circle({
       height={diameter}
       bgcolor={setOpacity("#e0e0e0", transparency || 1)}
       borderRadius="50%"
+      zIndex={-1}
       {...props}
     ></Box>
   );

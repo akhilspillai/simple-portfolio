@@ -5,7 +5,3 @@ ul {
 .project-item-container {
   display: flex;
 }
-
-.description-body {
-  padding-top: 10px;
-}
