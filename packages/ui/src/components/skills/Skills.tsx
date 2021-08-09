@@ -115,7 +115,7 @@ const SkillTitle = withStyles(() =>
     root: {
       position: "absolute",
       whiteSpace: "nowrap",
-      transform: "rotate(-90deg) translateY(270%)",
+      transform: "rotate(-90deg) translateY(260%)",
       bottom: "43%",
       right: 0,
     },
@@ -127,7 +127,6 @@ const SkillBox = withStyles(() =>
     root: {
       width: "100%",
       position: "relative",
-      overflow: "hidden",
     },
   })
 )(Box);

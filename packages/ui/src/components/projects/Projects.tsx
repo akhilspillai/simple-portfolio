@@ -274,10 +274,14 @@ function ProjectDescription({
       >
         {description}
       </ProjectBody>
-      {(isExpanded || isBigger) && (
-        <Link href="#" onClick={onClick}>
+      {isExpanded || isBigger ? (
+        <Link href="#" onClick={onClick} variant="body1">
           {isExpanded ? "less" : "more"}
         </Link>
+      ) : (
+        <Typography onClick={onClick} variant="body1">
+          &nbsp;
+        </Typography>
       )}
     </>
   );
